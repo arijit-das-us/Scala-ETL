@@ -1,0 +1,19 @@
+---
+- name: Deploy latest data-assembly jar to Azure Blob Storage
+  hosts: azure-rest-client
+  gather_facts: False
+
+  roles:
+    - azure-rest-auth
+
+  tasks:
+    - name: Gather resource group facts
+      uri:
+        url: https://management.azure.com/subscriptions/{{ subscription_id }}/resourcegroups/{{ resource_group_name }}?api-version=2017-05-10
+        headers:
+          Authorization: "Bearer {{ azure_access_token }}"
+        register: response
+
+    - name: Facts
+      debug:
+        msg: "{{ response.json }}"

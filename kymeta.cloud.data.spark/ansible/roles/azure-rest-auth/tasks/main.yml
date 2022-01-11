@@ -1,0 +1,52 @@
+---
+- name: Renew token for {{ resource_group_name }}
+  block:
+  - name: ">>>>>>>>>> {{ azure_credential_profile }} <<<<<<<<<<"
+    debug: msg=""
+  - debug: var={{ item }}
+    with_items:
+      - azure_credentials_file
+      - client_id
+      - secret
+      - tenant
+      - subscription
+  - uri:
+      url: "https://login.microsoftonline.com/{{ tenant }}/oauth2/token"
+      method: POST
+      body: "grant_type=client_credentials&client_id={{ client_id|urlencode()|regex_replace('/','%2F') }}&client_secret={{ secret|urlencode()|regex_replace('/','%2F') }}&resource={{ 'https://management.azure.com'|urlencode()|regex_replace('/','%2F') }}"
+      return_content: yes
+      headers:
+        Host: login.microsoftonline.com
+        Content-Type: application/x-www-form-urlencoded
+    register: authresp
+  - debug:
+      msg: "{{ authresp.json }}"
+    when:
+      - verbose
+      - authresp.status != 200
+  - set_fact: azure_access_token="{{ authresp.json.access_token }}"
+    when: authresp.status == 200
+  when: azure_access_token is not defined
+
+- name: Renew READONLY token (subscription-wide)
+  block:
+  - uri:
+      url: "https://login.microsoftonline.com/{{ tenant }}/oauth2/token"
+      method: POST
+      body: "grant_type=client_credentials&client_id={{ ro_client_id|urlencode()|regex_replace('/','%2F') }}&client_secret={{ ro_secret|urlencode()|regex_replace('/','%2F') }}&resource={{ 'https://management.azure.com'|urlencode()|regex_replace('/','%2F') }}"
+      return_content: yes
+      headers:
+        Host: login.microsoftonline.com
+        Content-Type: application/x-www-form-urlencoded
+    register: authresp
+
+  - debug:
+      msg: "{{ authresp.json }}"
+    when:
+      - verbose
+      - authresp.status != 200
+
+  - name: Set access token
+    set_fact: azure_ro_access_token="{{ authresp.json.access_token }}"
+    when: authresp.status == 200
+  when: azure_ro_access_token is not defined

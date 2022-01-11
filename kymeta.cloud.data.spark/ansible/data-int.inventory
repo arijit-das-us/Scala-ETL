@@ -1,0 +1,9 @@
+# Where REST API calls to managed services are executed
+[azure-rest-client]
+localhost ansible_connection=local
+
+[azure-rest-client:vars]
+resource_group_name=Kymeta-USWest2-RG-Data-Lower
+storage_account_name=kymetabigdata0lower
+azure_credential_profile=LOWER
+azure_location="West US 2"

@@ -1,0 +1,757 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name",
+            "defaultValue": "kymeta-data-ETL"
+        },
+        "HDInsight_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'HDInsight'"
+        },
+        "access_tickets_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.tickets"
+        },
+        "access_tickets_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remoteterminaltypes_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remoteterminaltypes"
+        },
+        "access_remoteterminaltypes_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_accounts_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.accounts"
+        },
+        "access_accounts_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_tags_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.tags"
+        },
+        "access_tags_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remotenetworks_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotenetworks"
+        },
+        "access_remotenetworks_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remotesubscriptions_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotesubscriptions"
+        },
+        "access_remotesubscriptions_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remoteserviceplans_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remoteserviceplans"
+        },
+        "access_remoteserviceplans_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remotedatapackages_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotedatapackages"
+        },
+        "access_remotedatapackages_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "MetrichistoryALL_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "@guid()"
+        },
+        "MetrichistoryALL_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory2/to_process"
+        },
+        "access_TerminalProperties_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "terminalProps"
+        },
+        "access_TerminalProperties_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawterminalhistory"
+        },
+        "metrichistory_all_blob_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "metrichistory.parquet"
+        },
+        "metrichistory_all_blob_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "temp"
+        },
+        "HDInsight_properties_typeProperties_userName": {
+            "type": "string",
+            "defaultValue": "data"
+        },
+        "access_remotedevices_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotedevices"
+        },
+        "access_remotedevices_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/access_tickets')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_tickets_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_tickets_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_remoteterminaltypes')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_remoteterminaltypes_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_remoteterminaltypes_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLDevices')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[LegacyDevices]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_accounts')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_accounts_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_accounts_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_tags')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_tags_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_tags_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLTags')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "structure": [
+                    {
+                        "name": "Id",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "EntityId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "EntityType",
+                        "type": "String"
+                    },
+                    {
+                        "name": "CreatedOn",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "CreatedById",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "Name",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Description",
+                        "type": "String"
+                    }
+                ],
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[Tags]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLRemoteNetworks')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[RemoteNetworks]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_remotenetworks')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_remotenetworks_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_remotenetworks_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_remotesubscriptions')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "structure": [
+                    {
+                        "name": "Id",
+                        "type": "String"
+                    },
+                    {
+                        "name": "CreatedOn",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "CreatedById",
+                        "type": "String"
+                    },
+                    {
+                        "name": "ModifiedOn",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "ModifiedById",
+                        "type": "String"
+                    },
+                    {
+                        "name": "RemoteId",
+                        "type": "String"
+                    },
+                    {
+                        "name": "StartDate",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "EndDate",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "RequestedCommissionDate",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "Active",
+                        "type": "Boolean"
+                    },
+                    {
+                        "name": "SubscriptionNumber",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Limit",
+                        "type": "Int32"
+                    },
+                    {
+                        "name": "NetworkId",
+                        "type": "String"
+                    },
+                    {
+                        "name": "ServicePlanId",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DataPackageId",
+                        "type": "String"
+                    },
+                    {
+                        "name": "ActivityTypeId",
+                        "type": "String"
+                    },
+                    {
+                        "name": "RegionId",
+                        "type": "String"
+                    },
+                    {
+                        "name": "AutoRenew",
+                        "type": "Boolean"
+                    },
+                    {
+                        "name": "DurationInMonths",
+                        "type": "Int32"
+                    }
+                ],
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_remotesubscriptions_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_remotesubscriptions_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_remoteserviceplans')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_remoteserviceplans_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_remoteserviceplans_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLTickets')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "structure": [
+                    {
+                        "name": "Id",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "CreatedOn",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "CreatedById",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "ModifiedOn",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "ModifiedById",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "Subject",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Description",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Status",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Substatus",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Type",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Source",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Priority",
+                        "type": "String"
+                    },
+                    {
+                        "name": "AssignedToId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "AccountId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "Number",
+                        "type": "Int32"
+                    },
+                    {
+                        "name": "IsAlert",
+                        "type": "Boolean"
+                    },
+                    {
+                        "name": "Test",
+                        "type": "Boolean"
+                    },
+                    {
+                        "name": "ClosedOn",
+                        "type": "DateTime"
+                    }
+                ],
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[Tickets]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_remotedatapackages')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_remotedatapackages_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_remotedatapackages_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLRemotes')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[Remotes]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLRemoteTerminalTypes')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[RemoteTerminalTypes]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/MetrichistoryALL')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "MetricHistory"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": {
+                        "value": "[parameters('MetrichistoryALL_properties_typeProperties_fileName')]",
+                        "type": "Expression"
+                    },
+                    "folderPath": "[parameters('MetrichistoryALL_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_TerminalProperties')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "TerminalHistoryCosmos"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "JsonFormat",
+                        "filePattern": "setOfObjects"
+                    },
+                    "fileName": "[parameters('access_TerminalProperties_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_TerminalProperties_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/metrichistory_all_blob')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('metrichistory_all_blob_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('metrichistory_all_blob_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/HDInsight')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "HDInsight",
+                "typeProperties": {
+                    "clusterUri": "https://kymeta-data.azurehdinsight.net",
+                    "userName": "[parameters('HDInsight_properties_typeProperties_userName')]",
+                    "password": {
+                        "type": "SecureString",
+                        "value": "[parameters('HDInsight_password')]"
+                    },
+                    "linkedServiceName": {
+                        "referenceName": "kymetabigdata",
+                        "type": "LinkedServiceReference"
+                    }
+                },
+                "connectVia": {
+                    "referenceName": "IR-HDI-VNET",
+                    "type": "IntegrationRuntimeReference"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLRemoteDevices')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[RemoteDevices]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_remotedevices')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_remotedevices_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_remotedevices_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        }
+    ]
+}

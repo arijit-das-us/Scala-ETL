@@ -1,0 +1,620 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name",
+            "defaultValue": "kymeta-data-ETL"
+        },
+        "access_Metrics_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "metrics"
+        },
+        "access_Metrics_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawterminalhistory"
+        },
+        "bigdata_rawmetrics_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "bigdata_rawmetrics_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawasmmetrics"
+        },
+        "KoTProdKiru_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ASMKiru*"
+        },
+        "KoTProdKiru_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context"
+        },
+        "bigdata_rawpost_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "bigdata_rawpost_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawasmpost"
+        },
+        "bigdata_rawkiru_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "bigdata_rawkiru_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawasmkiru"
+        },
+        "KoTProdMetrics_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ASMMetrics*"
+        },
+        "KoTProdMetrics_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context"
+        },
+        "KoTProdPOST_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ASMPowerOnSelfTest*"
+        },
+        "KoTProdPOST_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context"
+        },
+        "bigdata_rawactivitylogs_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "activityLogs.parquet"
+        },
+        "bigdata_rawactivitylogs_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawactivitylogs"
+        },
+        "rawdevicemanifests_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "data.parquet"
+        },
+        "rawdevicemanifests_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawdevicemanifests"
+        },
+        "bigdata_rawactivitylogsInt_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "activityLogs-int.parquet"
+        },
+        "bigdata_rawactivitylogsInt_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawactivitylogs"
+        },
+        "access_remotes_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotes"
+        },
+        "access_remotes_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_devices_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.devices"
+        },
+        "access_devices_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/access_Metrics')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "TerminalHistoryCosmos"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_Metrics_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_Metrics_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/metrichistoryprod')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureTable_metrichistoryprod",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "MetricHistory"
+                },
+                "annotations": [],
+                "type": "AzureTable",
+                "typeProperties": {
+                    "tableName": "metrichistoryprod"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/bigdata_rawmetrics')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdSeparate"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "fileName": "[parameters('bigdata_rawmetrics_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('bigdata_rawmetrics_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/KoTProdKiru')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetaofthingscontextprd",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdSeparate"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "fileName": "[parameters('KoTProdKiru_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('KoTProdKiru_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/bigdata_rawpost')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdSeparate"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "fileName": "[parameters('bigdata_rawpost_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('bigdata_rawpost_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/bigdata_rawkiru')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdSeparate"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "fileName": "[parameters('bigdata_rawkiru_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('bigdata_rawkiru_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/KoTProdMetrics')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetaofthingscontextprd",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdSeparate"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "fileName": "[parameters('KoTProdMetrics_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('KoTProdMetrics_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/KoTProdPOST')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetaofthingscontextprd",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdSeparate"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "fileName": "[parameters('KoTProdPOST_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('KoTProdPOST_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetacloud_activityLogs')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "ActivityLogs"
+                },
+                "annotations": [],
+                "type": "AzureTable",
+                "typeProperties": {
+                    "tableName": "activityLogs"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/bigdata_rawactivitylogs')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "ActivityLogs"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('bigdata_rawactivitylogs_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('bigdata_rawactivitylogs_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/rawdevicemanifests')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "DeviceManifests"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('rawdevicemanifests_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('rawdevicemanifests_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/DeviceManifests')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetatoolsdisks",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "DeviceManifests"
+                },
+                "annotations": [],
+                "type": "AzureTable",
+                "typeProperties": {
+                    "tableName": "DeviceManifestsProd"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/bigdata_rawactivitylogsInt')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "ActivityLogs"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('bigdata_rawactivitylogsInt_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('bigdata_rawactivitylogsInt_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetacloudint_activityLogs')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetacloudint",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "ActivityLogs"
+                },
+                "annotations": [],
+                "type": "AzureTable",
+                "typeProperties": {
+                    "tableName": "activityLogs"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLRemoteDataPackages')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[RemoteDataPackages]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLRemotesServicePlans')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[RemoteServicePlans]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_remotes')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_remotes_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_remotes_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_devices')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_devices_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_devices_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLAccounts')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[Accounts]')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/SQLRemoteSubscriptions')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "w2_kymetacloud",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KSNAzureSQL"
+                },
+                "annotations": [],
+                "type": "AzureSqlTable",
+                "structure": [
+                    {
+                        "name": "Id",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "CreatedOn",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "CreatedById",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "ModifiedOn",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "ModifiedById",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "RemoteId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "StartDate",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "EndDate",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "RequestedCommissionDate",
+                        "type": "DateTime"
+                    },
+                    {
+                        "name": "Active",
+                        "type": "Boolean"
+                    },
+                    {
+                        "name": "SubscriptionNumber",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Limit",
+                        "type": "Int32"
+                    },
+                    {
+                        "name": "NetworkId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "ServicePlanId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "DataPackageId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "ActivityTypeId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "RegionId",
+                        "type": "Guid"
+                    },
+                    {
+                        "name": "AutoRenew",
+                        "type": "Boolean"
+                    },
+                    {
+                        "name": "DurationInMonths",
+                        "type": "Int32"
+                    }
+                ],
+                "typeProperties": {
+                    "tableName": "[concat('[', 'dbo].[RemoteSubscriptions]')]"
+                }
+            },
+            "dependsOn": []
+        }
+    ]
+}

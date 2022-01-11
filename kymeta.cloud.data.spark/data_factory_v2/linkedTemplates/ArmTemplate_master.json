@@ -1,0 +1,599 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name",
+            "defaultValue": "kymeta-data-ETL"
+        },
+        "CosmosDb1_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'CosmosDb1'"
+        },
+        "kymetaofthingscontextprd_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetaofthingscontextprd'"
+        },
+        "Blob_metrichistoryprod_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'Blob_metrichistoryprod'"
+        },
+        "kymetasandbox_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetasandbox'"
+        },
+        "AzureTable_metrichistoryprod_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'AzureTable_metrichistoryprod'"
+        },
+        "kymetabigdata_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetabigdata'"
+        },
+        "w2_kymetacloud_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'w2_kymetacloud'"
+        },
+        "HDInsight_password": {
+            "type": "secureString",
+            "metadata": "Secure string for 'password' of 'HDInsight'"
+        },
+        "kcs_terminalhistory_prod_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kcs_terminalhistory_prod'"
+        },
+        "kymetacloud_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetacloud'"
+        },
+        "kymetatoolsdisks_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetatoolsdisks'"
+        },
+        "kymetacloudint_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetacloudint'"
+        },
+        "KoTprd_context_ALL_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context/"
+        },
+        "access_Terminals_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "terminals"
+        },
+        "access_Terminals_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawterminalhistory"
+        },
+        "rawmetrichistory_lock_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "lock"
+        },
+        "rawmetrichistory_lock_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory/metadata"
+        },
+        "minRowKey_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "minRowKey"
+        },
+        "minRowKey_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory/metadata"
+        },
+        "rawmetrichistory_to_process_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "@guid()"
+        },
+        "rawmetrichistory_to_process_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory/to_process"
+        },
+        "bigdata_rawcontext_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawcontext"
+        },
+        "access_Metrics_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "metrics"
+        },
+        "access_Metrics_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawterminalhistory"
+        },
+        "bigdata_rawmetrics_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "bigdata_rawmetrics_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawasmmetrics"
+        },
+        "KoTProdKiru_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ASMKiru*"
+        },
+        "KoTProdKiru_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context"
+        },
+        "bigdata_rawpost_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "bigdata_rawpost_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawasmpost"
+        },
+        "bigdata_rawkiru_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "bigdata_rawkiru_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawasmkiru"
+        },
+        "KoTProdMetrics_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ASMMetrics*"
+        },
+        "KoTProdMetrics_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context"
+        },
+        "KoTProdPOST_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ASMPowerOnSelfTest*"
+        },
+        "KoTProdPOST_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context"
+        },
+        "bigdata_rawactivitylogs_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "activityLogs.parquet"
+        },
+        "bigdata_rawactivitylogs_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawactivitylogs"
+        },
+        "rawdevicemanifests_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "data.parquet"
+        },
+        "rawdevicemanifests_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawdevicemanifests"
+        },
+        "bigdata_rawactivitylogsInt_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "activityLogs-int.parquet"
+        },
+        "bigdata_rawactivitylogsInt_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawactivitylogs"
+        },
+        "access_remotes_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotes"
+        },
+        "access_remotes_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_devices_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.devices"
+        },
+        "access_devices_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_tickets_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.tickets"
+        },
+        "access_tickets_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remoteterminaltypes_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remoteterminaltypes"
+        },
+        "access_remoteterminaltypes_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_accounts_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.accounts"
+        },
+        "access_accounts_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_tags_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.tags"
+        },
+        "access_tags_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remotenetworks_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotenetworks"
+        },
+        "access_remotenetworks_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remotesubscriptions_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotesubscriptions"
+        },
+        "access_remotesubscriptions_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remoteserviceplans_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remoteserviceplans"
+        },
+        "access_remoteserviceplans_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "access_remotedatapackages_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotedatapackages"
+        },
+        "access_remotedatapackages_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "MetrichistoryALL_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "@guid()"
+        },
+        "MetrichistoryALL_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory2/to_process"
+        },
+        "access_TerminalProperties_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "terminalProps"
+        },
+        "access_TerminalProperties_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawterminalhistory"
+        },
+        "metrichistory_all_blob_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "metrichistory.parquet"
+        },
+        "metrichistory_all_blob_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "temp"
+        },
+        "HDInsight_properties_typeProperties_userName": {
+            "type": "string",
+            "defaultValue": "data"
+        },
+        "access_remotedevices_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "ksn.remotedevices"
+        },
+        "access_remotedevices_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "access"
+        },
+        "containerUri": {
+            "type": "string",
+            "metadata": "URI to storage account containing linked ARM templates"
+        },
+        "containerSasToken": {
+            "type": "string",
+            "metadata": "Sas Token to storage account containing linked ARM templates"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "ArmTemplate_0",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-02-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    },
+                    "CosmosDb1_connectionString": {
+                        "value": "[parameters('CosmosDb1_connectionString')]"
+                    },
+                    "kymetaofthingscontextprd_connectionString": {
+                        "value": "[parameters('kymetaofthingscontextprd_connectionString')]"
+                    },
+                    "Blob_metrichistoryprod_connectionString": {
+                        "value": "[parameters('Blob_metrichistoryprod_connectionString')]"
+                    },
+                    "kymetasandbox_connectionString": {
+                        "value": "[parameters('kymetasandbox_connectionString')]"
+                    },
+                    "AzureTable_metrichistoryprod_connectionString": {
+                        "value": "[parameters('AzureTable_metrichistoryprod_connectionString')]"
+                    },
+                    "kymetabigdata_connectionString": {
+                        "value": "[parameters('kymetabigdata_connectionString')]"
+                    },
+                    "w2_kymetacloud_connectionString": {
+                        "value": "[parameters('w2_kymetacloud_connectionString')]"
+                    },
+                    "kcs_terminalhistory_prod_connectionString": {
+                        "value": "[parameters('kcs_terminalhistory_prod_connectionString')]"
+                    },
+                    "kymetacloud_connectionString": {
+                        "value": "[parameters('kymetacloud_connectionString')]"
+                    },
+                    "kymetatoolsdisks_connectionString": {
+                        "value": "[parameters('kymetatoolsdisks_connectionString')]"
+                    },
+                    "kymetacloudint_connectionString": {
+                        "value": "[parameters('kymetacloudint_connectionString')]"
+                    },
+                    "KoTprd_context_ALL_properties_typeProperties_folderPath": {
+                        "value": "[parameters('KoTprd_context_ALL_properties_typeProperties_folderPath')]"
+                    },
+                    "access_Terminals_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_Terminals_properties_typeProperties_fileName')]"
+                    },
+                    "access_Terminals_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_Terminals_properties_typeProperties_folderPath')]"
+                    },
+                    "rawmetrichistory_lock_properties_typeProperties_fileName": {
+                        "value": "[parameters('rawmetrichistory_lock_properties_typeProperties_fileName')]"
+                    },
+                    "rawmetrichistory_lock_properties_typeProperties_folderPath": {
+                        "value": "[parameters('rawmetrichistory_lock_properties_typeProperties_folderPath')]"
+                    },
+                    "minRowKey_properties_typeProperties_fileName": {
+                        "value": "[parameters('minRowKey_properties_typeProperties_fileName')]"
+                    },
+                    "minRowKey_properties_typeProperties_folderPath": {
+                        "value": "[parameters('minRowKey_properties_typeProperties_folderPath')]"
+                    },
+                    "rawmetrichistory_to_process_properties_typeProperties_fileName": {
+                        "value": "[parameters('rawmetrichistory_to_process_properties_typeProperties_fileName')]"
+                    },
+                    "rawmetrichistory_to_process_properties_typeProperties_folderPath": {
+                        "value": "[parameters('rawmetrichistory_to_process_properties_typeProperties_folderPath')]"
+                    },
+                    "bigdata_rawcontext_properties_typeProperties_folderPath": {
+                        "value": "[parameters('bigdata_rawcontext_properties_typeProperties_folderPath')]"
+                    }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "ArmTemplate_1",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-02-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    },
+                    "access_Metrics_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_Metrics_properties_typeProperties_fileName')]"
+                    },
+                    "access_Metrics_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_Metrics_properties_typeProperties_folderPath')]"
+                    },
+                    "bigdata_rawmetrics_properties_typeProperties_fileName": {
+                        "value": "[parameters('bigdata_rawmetrics_properties_typeProperties_fileName')]"
+                    },
+                    "bigdata_rawmetrics_properties_typeProperties_folderPath": {
+                        "value": "[parameters('bigdata_rawmetrics_properties_typeProperties_folderPath')]"
+                    },
+                    "KoTProdKiru_properties_typeProperties_fileName": {
+                        "value": "[parameters('KoTProdKiru_properties_typeProperties_fileName')]"
+                    },
+                    "KoTProdKiru_properties_typeProperties_folderPath": {
+                        "value": "[parameters('KoTProdKiru_properties_typeProperties_folderPath')]"
+                    },
+                    "bigdata_rawpost_properties_typeProperties_fileName": {
+                        "value": "[parameters('bigdata_rawpost_properties_typeProperties_fileName')]"
+                    },
+                    "bigdata_rawpost_properties_typeProperties_folderPath": {
+                        "value": "[parameters('bigdata_rawpost_properties_typeProperties_folderPath')]"
+                    },
+                    "bigdata_rawkiru_properties_typeProperties_fileName": {
+                        "value": "[parameters('bigdata_rawkiru_properties_typeProperties_fileName')]"
+                    },
+                    "bigdata_rawkiru_properties_typeProperties_folderPath": {
+                        "value": "[parameters('bigdata_rawkiru_properties_typeProperties_folderPath')]"
+                    },
+                    "KoTProdMetrics_properties_typeProperties_fileName": {
+                        "value": "[parameters('KoTProdMetrics_properties_typeProperties_fileName')]"
+                    },
+                    "KoTProdMetrics_properties_typeProperties_folderPath": {
+                        "value": "[parameters('KoTProdMetrics_properties_typeProperties_folderPath')]"
+                    },
+                    "KoTProdPOST_properties_typeProperties_fileName": {
+                        "value": "[parameters('KoTProdPOST_properties_typeProperties_fileName')]"
+                    },
+                    "KoTProdPOST_properties_typeProperties_folderPath": {
+                        "value": "[parameters('KoTProdPOST_properties_typeProperties_folderPath')]"
+                    },
+                    "bigdata_rawactivitylogs_properties_typeProperties_fileName": {
+                        "value": "[parameters('bigdata_rawactivitylogs_properties_typeProperties_fileName')]"
+                    },
+                    "bigdata_rawactivitylogs_properties_typeProperties_folderPath": {
+                        "value": "[parameters('bigdata_rawactivitylogs_properties_typeProperties_folderPath')]"
+                    },
+                    "rawdevicemanifests_properties_typeProperties_fileName": {
+                        "value": "[parameters('rawdevicemanifests_properties_typeProperties_fileName')]"
+                    },
+                    "rawdevicemanifests_properties_typeProperties_folderPath": {
+                        "value": "[parameters('rawdevicemanifests_properties_typeProperties_folderPath')]"
+                    },
+                    "bigdata_rawactivitylogsInt_properties_typeProperties_fileName": {
+                        "value": "[parameters('bigdata_rawactivitylogsInt_properties_typeProperties_fileName')]"
+                    },
+                    "bigdata_rawactivitylogsInt_properties_typeProperties_folderPath": {
+                        "value": "[parameters('bigdata_rawactivitylogsInt_properties_typeProperties_folderPath')]"
+                    },
+                    "access_remotes_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_remotes_properties_typeProperties_fileName')]"
+                    },
+                    "access_remotes_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_remotes_properties_typeProperties_folderPath')]"
+                    },
+                    "access_devices_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_devices_properties_typeProperties_fileName')]"
+                    },
+                    "access_devices_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_devices_properties_typeProperties_folderPath')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+            ]
+        },
+        {
+            "name": "ArmTemplate_2",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-02-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    },
+                    "HDInsight_password": {
+                        "value": "[parameters('HDInsight_password')]"
+                    },
+                    "access_tickets_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_tickets_properties_typeProperties_fileName')]"
+                    },
+                    "access_tickets_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_tickets_properties_typeProperties_folderPath')]"
+                    },
+                    "access_remoteterminaltypes_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_remoteterminaltypes_properties_typeProperties_fileName')]"
+                    },
+                    "access_remoteterminaltypes_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_remoteterminaltypes_properties_typeProperties_folderPath')]"
+                    },
+                    "access_accounts_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_accounts_properties_typeProperties_fileName')]"
+                    },
+                    "access_accounts_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_accounts_properties_typeProperties_folderPath')]"
+                    },
+                    "access_tags_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_tags_properties_typeProperties_fileName')]"
+                    },
+                    "access_tags_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_tags_properties_typeProperties_folderPath')]"
+                    },
+                    "access_remotenetworks_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_remotenetworks_properties_typeProperties_fileName')]"
+                    },
+                    "access_remotenetworks_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_remotenetworks_properties_typeProperties_folderPath')]"
+                    },
+                    "access_remotesubscriptions_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_remotesubscriptions_properties_typeProperties_fileName')]"
+                    },
+                    "access_remotesubscriptions_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_remotesubscriptions_properties_typeProperties_folderPath')]"
+                    },
+                    "access_remoteserviceplans_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_remoteserviceplans_properties_typeProperties_fileName')]"
+                    },
+                    "access_remoteserviceplans_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_remoteserviceplans_properties_typeProperties_folderPath')]"
+                    },
+                    "access_remotedatapackages_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_remotedatapackages_properties_typeProperties_fileName')]"
+                    },
+                    "access_remotedatapackages_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_remotedatapackages_properties_typeProperties_folderPath')]"
+                    },
+                    "MetrichistoryALL_properties_typeProperties_fileName": {
+                        "value": "[parameters('MetrichistoryALL_properties_typeProperties_fileName')]"
+                    },
+                    "MetrichistoryALL_properties_typeProperties_folderPath": {
+                        "value": "[parameters('MetrichistoryALL_properties_typeProperties_folderPath')]"
+                    },
+                    "access_TerminalProperties_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_TerminalProperties_properties_typeProperties_fileName')]"
+                    },
+                    "access_TerminalProperties_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_TerminalProperties_properties_typeProperties_folderPath')]"
+                    },
+                    "metrichistory_all_blob_properties_typeProperties_fileName": {
+                        "value": "[parameters('metrichistory_all_blob_properties_typeProperties_fileName')]"
+                    },
+                    "metrichistory_all_blob_properties_typeProperties_folderPath": {
+                        "value": "[parameters('metrichistory_all_blob_properties_typeProperties_folderPath')]"
+                    },
+                    "HDInsight_properties_typeProperties_userName": {
+                        "value": "[parameters('HDInsight_properties_typeProperties_userName')]"
+                    },
+                    "access_remotedevices_properties_typeProperties_fileName": {
+                        "value": "[parameters('access_remotedevices_properties_typeProperties_fileName')]"
+                    },
+                    "access_remotedevices_properties_typeProperties_folderPath": {
+                        "value": "[parameters('access_remotedevices_properties_typeProperties_folderPath')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_1')]"
+            ]
+        },
+        {
+            "name": "ArmTemplate_3",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-02-01",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "factoryName": {
+                        "value": "[parameters('factoryName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_2')]"
+            ]
+        }
+    ]
+}

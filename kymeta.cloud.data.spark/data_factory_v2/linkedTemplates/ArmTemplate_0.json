@@ -1,0 +1,463 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory Name",
+            "defaultValue": "kymeta-data-ETL"
+        },
+        "CosmosDb1_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'CosmosDb1'"
+        },
+        "kymetaofthingscontextprd_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetaofthingscontextprd'"
+        },
+        "Blob_metrichistoryprod_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'Blob_metrichistoryprod'"
+        },
+        "kymetasandbox_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetasandbox'"
+        },
+        "AzureTable_metrichistoryprod_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'AzureTable_metrichistoryprod'"
+        },
+        "kymetabigdata_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetabigdata'"
+        },
+        "w2_kymetacloud_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'w2_kymetacloud'"
+        },
+        "kcs_terminalhistory_prod_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kcs_terminalhistory_prod'"
+        },
+        "kymetacloud_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetacloud'"
+        },
+        "kymetatoolsdisks_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetatoolsdisks'"
+        },
+        "kymetacloudint_connectionString": {
+            "type": "secureString",
+            "metadata": "Secure string for 'connectionString' of 'kymetacloudint'"
+        },
+        "KoTprd_context_ALL_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "context/"
+        },
+        "access_Terminals_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "terminals"
+        },
+        "access_Terminals_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawterminalhistory"
+        },
+        "rawmetrichistory_lock_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "lock"
+        },
+        "rawmetrichistory_lock_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory/metadata"
+        },
+        "minRowKey_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "minRowKey"
+        },
+        "minRowKey_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory/metadata"
+        },
+        "rawmetrichistory_to_process_properties_typeProperties_fileName": {
+            "type": "string",
+            "defaultValue": "@guid()"
+        },
+        "rawmetrichistory_to_process_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawmetrichistory/to_process"
+        },
+        "bigdata_rawcontext_properties_typeProperties_folderPath": {
+            "type": "string",
+            "defaultValue": "rawcontext"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), '/IR-HDI-VNET')]",
+            "type": "Microsoft.DataFactory/factories/integrationRuntimes",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "type": "SelfHosted",
+                "typeProperties": {}
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/CosmosDb1')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "CosmosDb",
+                "typeProperties": {
+                    "connectionString": "[parameters('CosmosDb1_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetaofthingscontextprd')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('kymetaofthingscontextprd_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/Blob_metrichistoryprod')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('Blob_metrichistoryprod_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetasandbox')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('kymetasandbox_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/AzureTable_metrichistoryprod')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('AzureTable_metrichistoryprod_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetabigdata')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('kymetabigdata_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/w2_kymetacloud')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureSqlDatabase",
+                "typeProperties": {
+                    "connectionString": "[parameters('w2_kymetacloud_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kcs_terminalhistory_prod')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "CosmosDb",
+                "typeProperties": {
+                    "connectionString": "[parameters('kcs_terminalhistory_prod_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetacloud')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('kymetacloud_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetatoolsdisks')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('kymetatoolsdisks_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/kymetacloudint')]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "AzureStorage",
+                "typeProperties": {
+                    "connectionString": "[parameters('kymetacloudint_connectionString')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/KoTprd_context_ALL')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetaofthingscontextprd",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdALL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "folderPath": "[parameters('KoTprd_context_ALL_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kymetaofthingscontextprd')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/cosmos_Terminals')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kcs_terminalhistory_prod",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "TerminalHistoryCosmos"
+                },
+                "annotations": [],
+                "type": "DocumentDbCollection",
+                "typeProperties": {
+                    "collectionName": "Terminals"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kcs_terminalhistory_prod')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/cosmos_Metrics')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kcs_terminalhistory_prod",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "TerminalHistoryCosmos"
+                },
+                "annotations": [],
+                "type": "DocumentDbCollection",
+                "typeProperties": {
+                    "collectionName": "Metrics"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kcs_terminalhistory_prod')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/access_Terminals')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "TerminalHistoryCosmos"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": "[parameters('access_Terminals_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('access_Terminals_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kymetabigdata')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/rawmetrichistory_lock')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "MetricHistory"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "nullValue": "\\N",
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": false
+                    },
+                    "fileName": "[parameters('rawmetrichistory_lock_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('rawmetrichistory_lock_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kymetabigdata')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/minRowKey')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "MetricHistory"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "nullValue": "\\N",
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": false
+                    },
+                    "fileName": "[parameters('minRowKey_properties_typeProperties_fileName')]",
+                    "folderPath": "[parameters('minRowKey_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kymetabigdata')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/rawmetrichistory_to_process')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "MetricHistory"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "fileName": {
+                        "value": "[parameters('rawmetrichistory_to_process_properties_typeProperties_fileName')]",
+                        "type": "Expression"
+                    },
+                    "folderPath": "[parameters('rawmetrichistory_to_process_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kymetabigdata')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('factoryName'), '/bigdata_rawcontext')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "kymetabigdata",
+                    "type": "LinkedServiceReference"
+                },
+                "folder": {
+                    "name": "KoTProdALL"
+                },
+                "annotations": [],
+                "type": "AzureBlob",
+                "typeProperties": {
+                    "format": {
+                        "type": "ParquetFormat"
+                    },
+                    "folderPath": "[parameters('bigdata_rawcontext_properties_typeProperties_folderPath')]"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/linkedServices/kymetabigdata')]"
+            ]
+        }
+    ]
+}

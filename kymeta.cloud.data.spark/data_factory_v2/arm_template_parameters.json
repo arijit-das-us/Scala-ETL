@@ -1,0 +1,222 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "value": "kymeta-data-ETL"
+        },
+        "CosmosDb1_connectionString": {
+            "value": ""
+        },
+        "kymetaofthingscontextprd_connectionString": {
+            "value": ""
+        },
+        "Blob_metrichistoryprod_connectionString": {
+            "value": ""
+        },
+        "kymetasandbox_connectionString": {
+            "value": ""
+        },
+        "AzureTable_metrichistoryprod_connectionString": {
+            "value": ""
+        },
+        "kymetabigdata_connectionString": {
+            "value": ""
+        },
+        "w2_kymetacloud_connectionString": {
+            "value": ""
+        },
+        "HDInsight_password": {
+            "value": ""
+        },
+        "kcs_terminalhistory_prod_connectionString": {
+            "value": ""
+        },
+        "kymetacloud_connectionString": {
+            "value": ""
+        },
+        "kymetatoolsdisks_connectionString": {
+            "value": ""
+        },
+        "kymetacloudint_connectionString": {
+            "value": ""
+        },
+        "KoTprd_context_ALL_properties_typeProperties_folderPath": {
+            "value": "context/"
+        },
+        "access_Terminals_properties_typeProperties_fileName": {
+            "value": "terminals"
+        },
+        "access_Terminals_properties_typeProperties_folderPath": {
+            "value": "rawterminalhistory"
+        },
+        "rawmetrichistory_lock_properties_typeProperties_fileName": {
+            "value": "lock"
+        },
+        "rawmetrichistory_lock_properties_typeProperties_folderPath": {
+            "value": "rawmetrichistory/metadata"
+        },
+        "minRowKey_properties_typeProperties_fileName": {
+            "value": "minRowKey"
+        },
+        "minRowKey_properties_typeProperties_folderPath": {
+            "value": "rawmetrichistory/metadata"
+        },
+        "rawmetrichistory_to_process_properties_typeProperties_fileName": {
+            "value": "@guid()"
+        },
+        "rawmetrichistory_to_process_properties_typeProperties_folderPath": {
+            "value": "rawmetrichistory/to_process"
+        },
+        "bigdata_rawcontext_properties_typeProperties_folderPath": {
+            "value": "rawcontext"
+        },
+        "access_Metrics_properties_typeProperties_fileName": {
+            "value": "metrics"
+        },
+        "access_Metrics_properties_typeProperties_folderPath": {
+            "value": "rawterminalhistory"
+        },
+        "bigdata_rawmetrics_properties_typeProperties_fileName": {
+            "value": ""
+        },
+        "bigdata_rawmetrics_properties_typeProperties_folderPath": {
+            "value": "rawasmmetrics"
+        },
+        "KoTProdKiru_properties_typeProperties_fileName": {
+            "value": "ASMKiru*"
+        },
+        "KoTProdKiru_properties_typeProperties_folderPath": {
+            "value": "context"
+        },
+        "bigdata_rawpost_properties_typeProperties_fileName": {
+            "value": ""
+        },
+        "bigdata_rawpost_properties_typeProperties_folderPath": {
+            "value": "rawasmpost"
+        },
+        "bigdata_rawkiru_properties_typeProperties_fileName": {
+            "value": ""
+        },
+        "bigdata_rawkiru_properties_typeProperties_folderPath": {
+            "value": "rawasmkiru"
+        },
+        "KoTProdMetrics_properties_typeProperties_fileName": {
+            "value": "ASMMetrics*"
+        },
+        "KoTProdMetrics_properties_typeProperties_folderPath": {
+            "value": "context"
+        },
+        "KoTProdPOST_properties_typeProperties_fileName": {
+            "value": "ASMPowerOnSelfTest*"
+        },
+        "KoTProdPOST_properties_typeProperties_folderPath": {
+            "value": "context"
+        },
+        "bigdata_rawactivitylogs_properties_typeProperties_fileName": {
+            "value": "activityLogs.parquet"
+        },
+        "bigdata_rawactivitylogs_properties_typeProperties_folderPath": {
+            "value": "rawactivitylogs"
+        },
+        "rawdevicemanifests_properties_typeProperties_fileName": {
+            "value": "data.parquet"
+        },
+        "rawdevicemanifests_properties_typeProperties_folderPath": {
+            "value": "rawdevicemanifests"
+        },
+        "bigdata_rawactivitylogsInt_properties_typeProperties_fileName": {
+            "value": "activityLogs-int.parquet"
+        },
+        "bigdata_rawactivitylogsInt_properties_typeProperties_folderPath": {
+            "value": "rawactivitylogs"
+        },
+        "access_remotes_properties_typeProperties_fileName": {
+            "value": "ksn.remotes"
+        },
+        "access_remotes_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_devices_properties_typeProperties_fileName": {
+            "value": "ksn.devices"
+        },
+        "access_devices_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_tickets_properties_typeProperties_fileName": {
+            "value": "ksn.tickets"
+        },
+        "access_tickets_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_remoteterminaltypes_properties_typeProperties_fileName": {
+            "value": "ksn.remoteterminaltypes"
+        },
+        "access_remoteterminaltypes_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_accounts_properties_typeProperties_fileName": {
+            "value": "ksn.accounts"
+        },
+        "access_accounts_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_tags_properties_typeProperties_fileName": {
+            "value": "ksn.tags"
+        },
+        "access_tags_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_remotenetworks_properties_typeProperties_fileName": {
+            "value": "ksn.remotenetworks"
+        },
+        "access_remotenetworks_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_remotesubscriptions_properties_typeProperties_fileName": {
+            "value": "ksn.remotesubscriptions"
+        },
+        "access_remotesubscriptions_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_remoteserviceplans_properties_typeProperties_fileName": {
+            "value": "ksn.remoteserviceplans"
+        },
+        "access_remoteserviceplans_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "access_remotedatapackages_properties_typeProperties_fileName": {
+            "value": "ksn.remotedatapackages"
+        },
+        "access_remotedatapackages_properties_typeProperties_folderPath": {
+            "value": "access"
+        },
+        "MetrichistoryALL_properties_typeProperties_fileName": {
+            "value": "@guid()"
+        },
+        "MetrichistoryALL_properties_typeProperties_folderPath": {
+            "value": "rawmetrichistory2/to_process"
+        },
+        "access_TerminalProperties_properties_typeProperties_fileName": {
+            "value": "terminalProps"
+        },
+        "access_TerminalProperties_properties_typeProperties_folderPath": {
+            "value": "rawterminalhistory"
+        },
+        "metrichistory_all_blob_properties_typeProperties_fileName": {
+            "value": "metrichistory.parquet"
+        },
+        "metrichistory_all_blob_properties_typeProperties_folderPath": {
+            "value": "temp"
+        },
+        "HDInsight_properties_typeProperties_userName": {
+            "value": "data"
+        },
+        "access_remotedevices_properties_typeProperties_fileName": {
+            "value": "ksn.remotedevices"
+        },
+        "access_remotedevices_properties_typeProperties_folderPath": {
+            "value": "access"
+        }
+    }
+}

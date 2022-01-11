@@ -1,0 +1,3 @@
+---
+verbose: false
+azure_credentials_file: ~/.azure/credentials
